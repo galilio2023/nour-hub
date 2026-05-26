@@ -1,4 +1,4 @@
-name: AI Code Review
+name: Gemini Code Review
 
 on:
   pull_request:
@@ -20,18 +20,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: AI Code Reviewer
-        # Using a popular AI review action. Note: This often requires an OPENAI_API_KEY or similar secret.
-        # For a general "catch-all" without external keys, we start with a robust linting/security check
-        # and recommend adding an AI secret for deeper architectural reviews.
-        uses: anc95/ChatGPT-CodeReview@v1
+      - name: Gemini Code Review
+        uses: google-gemini/gemini-github-action@v1.1.0
         if: github.event_name == 'pull_request'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          LANGUAGE: English
-          MODEL: gpt-4-turbo
-          PROMPT: "Please review the following code changes. Focus on potential bugs, security vulnerabilities, performance improvements, and adherence to clean code principles. Provide specific suggestions for improvement."
+        with:
+          gemini-api-key: ${{ secrets.GEMINI_API_KEY }}
+          model: 'gemini-1.5-pro'
+          prompt: |
+            You are an expert software engineer. Review the following code changes.
+            Focus on:
+            1. Potential bugs and logic errors.
+            2. Security vulnerabilities.
+            3. Performance optimizations.
+            4. Readability and maintainability.
+            5. Adherence to React and Next.js best practices.
+            Provide specific, actionable suggestions.
 
       - name: Static Analysis & Linting
         uses: actions/setup-node@v4
