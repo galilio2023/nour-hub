@@ -25,7 +25,7 @@ jobs:
         if: github.event_name == 'pull_request'
         with:
           gemini-api-key: ${{ secrets.GEMINI_API_KEY }}
-          model: 'gemini-1.5-pro'
+          model: 'gemini-flash-latest'
           prompt: |
             You are an expert software engineer. Review the following code changes.
             Focus on:
