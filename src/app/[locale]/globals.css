@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-amiri: var(--font-amiri);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+@utility shadow-glow-red {
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+}
+@utility shadow-glow-teal {
+  box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+}
+@utility shadow-glow-yellow {
+  box-shadow: 0 0 20px rgba(255, 230, 109, 0.3);
+}
+@utility shadow-glow-purple {
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
+}
+@utility shadow-glow-blue {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+@utility shadow-glow-pink {
+  box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
+}
+@utility animate-bounce-slow {
+  animation: bounce 3s infinite;
+}
+@utility animate-spin-slow {
+  animation: spin 20s linear infinite;
+}
+@utility animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+@utility animate-float-delayed {
+  animation: float-delayed 8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(-20px); }
+  50% { transform: translateY(0px); }
+}
