@@ -1,0 +1,46 @@
+name: AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: AI Code Reviewer
+        # Using a popular AI review action. Note: This often requires an OPENAI_API_KEY or similar secret.
+        # For a general "catch-all" without external keys, we start with a robust linting/security check
+        # and recommend adding an AI secret for deeper architectural reviews.
+        uses: anc95/ChatGPT-CodeReview@v1
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LANGUAGE: English
+          MODEL: gpt-4-turbo
+          PROMPT: "Please review the following code changes. Focus on potential bugs, security vulnerabilities, performance improvements, and adherence to clean code principles. Provide specific suggestions for improvement."
+
+      - name: Static Analysis & Linting
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Lint
+        run: npm run lint
